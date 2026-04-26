@@ -10,20 +10,28 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@Table(name="juegos")
+@Table(name="juego")
 @AllArgsConstructor
 @NoArgsConstructor
-public class Juegos {
+public class Juego {
     @Id
     private Long id;
+
     @Column(nullable = false)
     private String titulo;
+
     @Column(length = 1000)
     private String descripcion;
+
+    @Column(nullable = false)
+    private Integer anioLanzamiento;
+
     @Column(nullable = false)
     private Long generoid;
+
     @Column(nullable = false)
     private Long plataformaid;
+
     @Column(nullable = false)
     private Long estudioid;
 }
