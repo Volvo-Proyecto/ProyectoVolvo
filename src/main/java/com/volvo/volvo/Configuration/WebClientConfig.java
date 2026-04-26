@@ -3,8 +3,7 @@ package com.volvo.volvo.Configuration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import lombok.Value;
+import org.springframework.beans.factory.annotation.Value;
 
 @Configuration
 public class WebClientConfig {

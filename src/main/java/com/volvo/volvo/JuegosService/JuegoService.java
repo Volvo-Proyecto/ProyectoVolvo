@@ -80,7 +80,7 @@ public class JuegoService {
     .bodyToMono(GeneroDTO.class).block();
 
 
-    PlataformaDTO platforma = plataformawebClient.get()
+    PlataformaDTO plataforma = plataformawebClient.get()
                 .uri("/api/v1/platforma/{id}", juego.getPlataformaid())
                 .retrieve()
                 .onStatus(
@@ -93,7 +93,7 @@ public class JuegoService {
                 .bodyToMono(PlataformaDTO.class)
                 .block();
 
-    EstudioDTO studio = estudiowebClient.get()
+    EstudioDTO estudio = estudiowebClient.get()
                 .uri("/api/studios/{id}", juego.getEstudioid())
                 .retrieve()
                 .onStatus(
