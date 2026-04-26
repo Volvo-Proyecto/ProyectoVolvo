@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 
 import com.volvo.volvo.DTO.EstudioDTO;
 import com.volvo.volvo.DTO.GeneroDTO;
@@ -115,6 +116,38 @@ public class JuegoService {
         respuesta.setEstudio(estudio);
 
         return respuesta;
+    }
+    private void validarIdExterno(Long generoId, Long plataformaId, Long estudioId){
+        try {
+            generowebClient.get()
+            .uri("/api/v1/genero/{id}",generoId)
+            .retrieve()
+            .onStatus(status -> status.is4xxClientError(),
+             response->response.bodyToMono(String.class)
+            .map(b-> new RuntimeException("Genero id"+generoId +"no existe")))
+            .bodyToMono(GeneroDTO.class)
+            .block();
+
+            plataformawebClient.get()
+            .uri("/api/v1/plataforma/{id}",plataformaId)
+            .retrieve()
+            .onStatus(status -> status.is4xxClientError(),
+             response->response.bodyToMono(String.class)
+            .map(b-> new RuntimeException("Plataforma id"+plataformaId +"no existe")))
+            .bodyToMono(PlataformaDTO.class)
+            .block();
+            
+            estudiowebClient.get()
+                .uri("/api/estudio/{id}", estudioId)
+                .retrieve()
+                .onStatus(status -> status.is4xxClientError(),
+                    response -> response.bodyToMono(String.class)
+                        .map(b -> new RuntimeException("Estudio ID " + estudioId + " no existe")))
+                .bodyToMono(EstudioDTO.class)
+                .block();
+        } catch (WebClientResponseException e) {
+            throw new RuntimeException("Error al validar IDs externos: " + e.getMessage(), e);
+        }
     }
 
 }
