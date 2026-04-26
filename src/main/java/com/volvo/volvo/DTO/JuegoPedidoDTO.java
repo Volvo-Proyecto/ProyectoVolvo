@@ -1,12 +1,15 @@
 package com.volvo.volvo.DTO;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class JuegoDTO {
+public class JuegoPedidoDTO {
 
     @NotBlank(message = "El nombre del juego no puede estar vacío")
     @Size(max = 255, message = "El nombre del juego no puede exceder los 255 caracteres")
@@ -27,6 +30,10 @@ public class JuegoDTO {
 
     @NotNull(message = "debes indicar una plataforma")
     @Positive(message = "la id de plataforma debe ser positivo")
+    private Long plataformaid;
 
-    
+    @NotNull(message = "Debes indicar un estudio")
+    @Positive(message = "la id del estudio debe ser positivo")
+    private Long estudioid;
+
 }
