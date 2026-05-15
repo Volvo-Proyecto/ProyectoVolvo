@@ -25,15 +25,15 @@ public class JuegoPedidoDTO {
 
     @NotNull(message = "debes indicar un genero")
     @Positive(message = "el id del genero debe ser positivo")
-    private Long generoid;
+    private Long generoId;
 
 
     @NotNull(message = "debes indicar una plataforma")
     @Positive(message = "la id de plataforma debe ser positivo")
-    private Long plataformaid;
+    private Long plataformaId;
 
     @NotNull(message = "Debes indicar un estudio")
     @Positive(message = "la id del estudio debe ser positivo")
-    private Long estudioid;
+    private Long estudioId;
 
 }

@@ -9,9 +9,9 @@ import java.util.List;
 
 @Repository
 public interface JuegoRepository extends JpaRepository<Juego,Long>{
-    List<Juego> findByGeneroId(Long generoid);
-    List<Juego> findByEstudioId(Long estudioid);
-    List<Juego> findByPlataformaid(Long plataformaid);
+    List<Juego> findByGeneroId(Long generoId);
+    List<Juego> findByEstudioId(Long estudioId);
+    List<Juego> findByPlataformId(Long plataformId);
     List<Juego> findByTitulo(String titulo);
 
 }

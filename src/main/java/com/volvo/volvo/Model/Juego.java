@@ -2,6 +2,8 @@ package com.volvo.volvo.Model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -15,6 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Juego {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
@@ -27,11 +30,11 @@ public class Juego {
     private Integer anioLanzamiento;
 
     @Column(nullable = false)
-    private Long generoid;
+    private Long generoId;
 
     @Column(nullable = false)
-    private Long plataformaid;
+    private Long plataformId;
 
     @Column(nullable = false)
-    private Long estudioid;
+    private Long estudioId;
 }

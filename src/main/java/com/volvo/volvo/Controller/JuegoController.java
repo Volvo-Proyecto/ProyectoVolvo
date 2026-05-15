@@ -38,7 +38,7 @@ public class JuegoController {
     public ResponseEntity<JuegoRespuestaDTO> obtenerporId(@PathVariable Long id) {
         return ResponseEntity.ok(juegoService.obtenerJuegoporId(id));
     }
-    @PostMapping
+    @PostMapping("/crear")
     public ResponseEntity<JuegoRespuestaDTO> crearJuego(@Valid @RequestBody JuegoPedidoDTO nuevo) {
         JuegoRespuestaDTO creado = juegoService.crearJuego(nuevo);
 

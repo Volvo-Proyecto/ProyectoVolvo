@@ -50,15 +50,16 @@ public class JuegoService {
     public JuegoRespuestaDTO crearJuego(JuegoPedidoDTO pedido){
 
         //validamos que los id existen en sus respectivos servicios
-        validarIdExterno(pedido.getGeneroid(), pedido.getPlataformaid(), pedido.getEstudioid());
+        //****IMPORTANTE ACTIVAR EL VALIDAR MAS TARDE; AHORA ESTA DESACTIVADO PARA HACER PRUEBAS SIN OTROS SERVICIOS CORRIENDO */
+        //validarIdExterno(pedido.getGeneroId(), pedido.getPlataformaId(), pedido.getEstudioId());
 
         Juego juego = new Juego();
         juego.setTitulo(pedido.getTitulo());
         juego.setDescripcion(pedido.getDescripcion());
         juego.setAnioLanzamiento(pedido.getAnioLanzamiento());
-        juego.setGeneroid(pedido.getGeneroid());
-        juego.setPlataformaid(pedido.getPlataformaid());
-        juego.setEstudioid(pedido.getEstudioid());
+        juego.setGeneroId(pedido.getGeneroId());
+        juego.setPlataformId(pedido.getPlataformaId());
+        juego.setEstudioId(pedido.getEstudioId());
 
         Juego guardado = repositorio.save(juego);
         return enriquecerJuego(guardado);
@@ -77,40 +78,44 @@ public class JuegoService {
 
         //Llama al genero sercicio con un Get localhost:8081/api/v1/...
         GeneroDTO genero = generowebClient.get()
-        .uri("/api/v1/generos/{id}",juego.getGeneroid())
+        .uri("/api/v1/generos/{id}",juego.getGeneroId())
         .retrieve()
         .onStatus(status->status.is4xxClientError(),
          response-> response.bodyToMono(String.class)
-        .map(body -> new RuntimeException("Genero con ID"+ juego.getGeneroid()+"no encontrado en genero Servicio"
+        .map(body -> new RuntimeException("Genero con ID"+ juego.getGeneroId()+"no encontrado en genero Servicio"
     ))
 )
-    .bodyToMono(GeneroDTO.class).block();
+    .bodyToMono(GeneroDTO.class)
+    .onErrorReturn(new GeneroDTO())
+    .block();
 
 
     PlataformaDTO plataforma = plataformawebClient.get()
-                .uri("/api/v1/platforma/{id}", juego.getPlataformaid())
+                .uri("/api/v1/platforma/{id}", juego.getPlataformId())
                 .retrieve()
                 .onStatus(
                     status -> status.is4xxClientError(),
                     response -> response.bodyToMono(String.class)
                         .map(body -> new RuntimeException(
-                            "Plataforma con ID " + juego.getPlataformaid() + " no encontrada en Platforma Service"
+                            "Plataforma con ID " + juego.getPlataformId() + " no encontrada en Platforma Service"
                         ))
                 )
                 .bodyToMono(PlataformaDTO.class)
+                .onErrorReturn(new PlataformaDTO())
                 .block();
 
     EstudioDTO estudio = estudiowebClient.get()
-                .uri("/api/studios/{id}", juego.getEstudioid())
+                .uri("/api/studios/{id}", juego.getEstudioId())
                 .retrieve()
                 .onStatus(
                     status -> status.is4xxClientError(),
                     response -> response.bodyToMono(String.class)
                         .map(body -> new RuntimeException(
-                            "Estudio con ID " + juego.getEstudioid() + " no encontrado en Estudio Service"
+                            "Estudio con ID " + juego.getEstudioId() + " no encontrado en Estudio Service"
                         ))
                 )
                 .bodyToMono(EstudioDTO.class)
+                .onErrorReturn(new EstudioDTO())
                 .block();
 
     JuegoRespuestaDTO respuesta = new JuegoRespuestaDTO();
